@@ -1,0 +1,22 @@
+function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 29.6000, lng: -98.5000 }, // Adjust center based on hospital locations
+        zoom: 12
+    });
+
+    // Load the GeoJSON file
+    map.data.loadGeoJson("https://raw.githubusercontent.com/fairlogistic/mapoverlay/main/map%20(2).geojson");
+
+    // Tooltip for Hover
+    let tooltip = new google.maps.InfoWindow();
+    map.data.addListener("mouseover", function(event) {
+        tooltip.setContent(event.feature.getProperty("name"));
+        tooltip.setPosition(event.latLng);
+        tooltip.open(map);
+    });
+
+    // Close Tooltip on Mouseout
+    map.data.addListener("mouseout", function() {
+        tooltip.close();
+    });
+}
